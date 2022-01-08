@@ -1,0 +1,26 @@
+    <script type="text/javascript">
+
+            var getJsonDropDownList = function () {
+                $("#utblMstProcessMetrices_SkillID").empty();
+                $.ajax({
+                    type: "Post",
+                    url: "@Url.Action("GetProcessSkill", "Metrices",new {@area="Admin" })",
+                    dataType: 'json',
+                    data: { ProcessID: $("#utblMstProcessMetrices_ProcessID").val()},
+                    success: function (data) {
+                        if (data.length == 0) {
+                            $("#utblMstProcessMetrices_SkillID").attr("disabled", "disabled");
+                            return;
+                        }
+                        $("#utblMstProcessMetrices_SkillID").removeAttr("disabled");
+
+                        $.each(data, function (i, item) {
+                            $("#utblMstProcessMetrices_SkillID").append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                        });
+                    },
+
+                });
+                return false;
+            };
+            $(".container-fluid").on("change", ".drop-change", getJsonDropDownList);
+    </script>
